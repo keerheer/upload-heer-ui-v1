@@ -1,0 +1,77 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1753878453077') format('truetype');
+}
+
+[class*='he-icon-a-'] {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.he-icon-a-aixin:before {
+  content: "\e601";
+}
+
+.he-icon-a-select:before {
+  content: "\e602";
+}
+
+.he-icon-a-close:before {
+  content: "\e603";
+}
+
+.he-icon-a-add:before {
+  content: "\e604";
+}
+
+.he-icon-a-reduce:before {
+  content: "\e605";
+}
+
+.he-icon-a-to-big:before {
+  content: "\e606";
+}
+
+.he-icon-a-to-up:before {
+  content: "\e607";
+}
+
+.he-icon-a-to-right:before {
+  content: "\e608";
+}
+
+.he-icon-a-back1:before {
+  content: "\e609";
+}
+
+.he-icon-a-to-left:before {
+  content: "\e60a";
+}
+
+.he-icon-a-back2:before {
+  content: "\e60b";
+}
+
+.he-icon-a-to-down:before {
+  content: "\e60c";
+}
+
+.he-icon-a-favorite-none:before {
+  content: "\e60d";
+}
+
+.he-icon-a-favorite-full:before {
+  content: "\e60e";
+}
+
+.he-icon-a-eye-show:before {
+  content: "\e60f";
+}
+
+.he-icon-a-eye-hidden:before {
+  content: "\e610";
+}
+
