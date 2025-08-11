@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 export default {
     name:'HeCheckboxGroup',
     props:{
@@ -15,8 +16,12 @@ export default {
     },
     provide(){
         return{
-            checkboxGroup:this
+            checkboxGroup: {
+                modelValue: computed(() => this.modelValue),
+                $emit: (event, value) => this.$emit(event, value)
+            }
         }
-    }
+    },
+    emits:['update:modelValue']
 }
 </script>

@@ -3,10 +3,11 @@
         <!-- 第二层 两部分组成两个span  -->
         <!-- 第一部分 是input 用于接收用户的点击事件  两部分 第一部分是一个圆点 第二部分是一个iput-->
         <!-- 第二部分 是label 用于显示文本 -->
- <label class="he-radio" :class="{'is-checked': model === label}">
+ <label class="he-radio" :class="{'is-checked': model === label, 'is-disabled': disabled}">
     <span class="he-radio_input">
       <span class="he-radio_inner"></span>
       <input
+      v-if="!disabled"
       type="radio"
       class="he-radio_original" 
       :name="name"
@@ -46,6 +47,10 @@ export default {
             return  this.isGroup ? this.RadioGroup.modelValue : this.modelValue
         },
         set(modelValue){
+            // 如果组件被禁用，则不执行任何操作
+            if (this.disabled) {
+                return
+            }
             
             if(this.isGroup){
                 this.RadioGroup.$emit('update:modelValue',modelValue)
@@ -68,6 +73,10 @@ export default {
         name:{
             type:String,
             default:''  
+        },
+        disabled:{
+            type:Boolean,
+            default:false
         }
 
     }
@@ -150,6 +159,23 @@ export default {
     }
     .he-radio_label{
       color:#409eff;
+    }
+  }
+  // 禁用的样式
+  .he-radio.is-disabled{
+    cursor: not-allowed;
+    opacity: 0.6;
+    .he-radio_input{
+      cursor: not-allowed;
+      .he-radio_inner{
+        background-color: #f5f7fa;
+        border-color: #e4e7ed;
+        cursor: not-allowed;
+      }
+    }
+    .he-radio_label{
+      cursor: not-allowed;
+      color: #c0c4cc;
     }
   }
 </style>

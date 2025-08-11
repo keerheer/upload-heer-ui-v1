@@ -1,9 +1,10 @@
 <template>
-<label class="he-checkbox" :class="{'is-checked':isChecked}">
+<label class="he-checkbox" :class="{'is-checked':isChecked, 'is-disabled':disabled}">
     <span>
         <span class="he-checkbox_input">
             <span class="he-checkbox_inner"></span>
             <input
+            v-if="!disabled"
             type="checkbox"
             class="he-checkbox_original"
             :name="name"
@@ -23,6 +24,8 @@
 <script>
 
 export default {
+    name:'HeCheckbox',
+    emits:['update:modelValue'],
     inject:{
         checkboxGroup:{
             default:''
@@ -32,9 +35,13 @@ export default {
         model:{
             get(){
                 // return this.modelValue
-                return this.isGroup ? this.checkboxGroup.modelValue : this.modelValue
+                return this.isGroup ? this.checkboxGroup.modelValue.value : this.modelValue
             },
             set(modelValue){
+                // 如果组件被禁用，则不执行任何操作
+                if (this.disabled) {
+                    return
+                }
                 // this.$emit('update:modelValue',modelValue)
                 return this.isGroup ? this.checkboxGroup.$emit('update:modelValue',modelValue) : this.$emit('update:modelValue',modelValue)
             }
@@ -45,10 +52,13 @@ export default {
         isChecked(){
             // 此处和单选不同 如果被包裹 那么就判断我们的label是否在数组中
             // 如果没有group包裹 那么直接使用值 modelValue是bool值
-            return this.isGroup ? this.checkboxGroup.modelValue.includes(this.label) : this.modelValue
+            if (this.isGroup) {
+                const modelValue = this.checkboxGroup.modelValue.value
+                return Array.isArray(modelValue) ? modelValue.includes(this.label) : false
+            }
+            return this.modelValue
         }
     },
-    name:'HeCheckbox',
     props:{
         modelValue:{
             type:Boolean,
@@ -61,6 +71,10 @@ export default {
         name:{
             type:String,
             default:''  
+        },
+        disabled:{
+            type:Boolean,
+            default:false
         }
     }
 }
@@ -143,6 +157,23 @@ export default {
     }
     .he-checkbox_label{
       color: #409eff;
+    }
+  }
+  /* 禁用的样式 */
+  .he-checkbox.is-disabled{
+    cursor: not-allowed;
+    opacity: 0.6;
+    .he-checkbox_input{
+      cursor: not-allowed;
+      .he-checkbox_inner{
+        background-color: #f5f7fa;
+        border-color: #e4e7ed;
+        cursor: not-allowed;
+      }
+    }
+    .he-checkbox_label{
+      cursor: not-allowed;
+      color: #c0c4cc;
     }
   }
 </style>

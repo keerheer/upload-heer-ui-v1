@@ -11,7 +11,10 @@
         :name="name"
         :disabled="disabled"
         
-        :value = 'modelValue' @input = 'handleInput'
+        :value = 'modelValue' 
+        @input = 'handleInput'
+        @blur = 'handleBlur'
+        @change = 'handleChange'
   
       />
       <span class="he-input_suffix">
@@ -78,6 +81,36 @@
       },
       handleShowPassword(){
         this.showPasswordVisible = !this.showPasswordVisible
+      },
+      handleBlur(e){
+        this.$emit('blur', e)
+        // 向上查找form-item组件并触发blur事件
+        this.dispatch('HeFormItem', 'el.form.blur')
+      },
+      handleChange(e){
+        this.$emit('change', e.target.value)
+        // 向上查找form-item组件并触发change事件
+        this.dispatch('HeFormItem', 'el.form.change')
+      },
+      // 向上查找指定组件并触发事件
+      dispatch(componentName, eventName) {
+        let parent = this.$parent || this.$root
+        let name = parent.$options.name
+        
+        while (parent && (!name || name !== componentName)) {
+          parent = parent.$parent
+          if (parent) {
+            name = parent.$options.name
+          }
+        }
+        if (parent) {
+          // 直接调用父组件的方法来触发验证
+          if (eventName === 'el.form.blur') {
+            parent.onFieldBlur && parent.onFieldBlur()
+          } else if (eventName === 'el.form.change') {
+            parent.onFieldChange && parent.onFieldChange()
+          }
+        }
       }
   
     },

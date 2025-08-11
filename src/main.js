@@ -22,6 +22,8 @@ import HeCheckboxGroup from '@/components/checkbox-group.vue'
 import HeForm from '@/components/form.vue'
 // 导入form-item
 import HeFormItem from '@/components/form-item.vue'
+// 导入select
+import HeSelect from '@/components/select.vue'
 
 // Vue 3中，应该先注册组件再挂载应用
 const app = createApp(App)
@@ -36,5 +38,6 @@ app.component(HeCheckbox.name, HeCheckbox)
 app.component(HeCheckboxGroup.name, HeCheckboxGroup)
 app.component(HeForm.name, HeForm)
 app.component(HeFormItem.name, HeFormItem)
+app.component(HeSelect.name, HeSelect)
 // 挂载
 app.mount('#app')

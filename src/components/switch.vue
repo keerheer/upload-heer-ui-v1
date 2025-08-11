@@ -1,7 +1,7 @@
 <template>
-<div class="he-switch" :class="[{'is-checked':modelValue}, `he-switch--${size}`]" @click="change">
+<div class="he-switch" :class="[{'is-checked':modelValue, 'is-disabled':disabled}, `he-switch--${size}`]" @click="change">
 
-    <span class="he-switch_core" ref="core" >
+    <span class="he-switch_core" ref="core"  >
         <span class="he-switch_core_button"></span>
     </span>
     <!-- name属性 标识它 -->
@@ -41,18 +41,28 @@ export default {
             type: String,
             default: ''
         },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
 
     },
     methods:{
         // 下面的注释部分写了两种实现方法，一中是await this.$nextTick() 另外一种就是使用watch监听
          async change(){ //点击改变value值
+            // 如果组件被禁用，则不执行任何操作
+            if (this.disabled) {
+                return
+            }
             this.$emit('update:modelValue',!this.modelValue)
             // 此处进行打印验证在首次进行点击时它的值并没有变换需要通过
             // 数据修改等待dom更新，然后修改颜色
             await this.$nextTick()
             this.setColor()
             console.log(this.modelValue);
-            this.$refs.input.checked = this.modelValue
+            if (this.$refs.input) {
+                this.$refs.input.checked = this.modelValue
+            }
             
         },
         setColor(){
@@ -69,15 +79,17 @@ export default {
     console.log("mounted",this.modelValue);
     this.setColor()
     // 控制checkbox的值,input值同步value值
-    this.$refs.input.checked = this.modelValue
+    if (this.$refs.input) {
+        this.$refs.input.checked = this.modelValue
+    }
         
     },
-//   watch: {
-//     'modelValue' () {
-//     /*  修改开关颜色 */
-//         this.setColor()
-//         }
-// }
+  watch: {
+    'modelValue' () {
+    /*  修改开关颜色 */
+        this.setColor()
+        }
+}
 }
 </script>
 
@@ -89,6 +101,16 @@ export default {
     font-size: 14px;
     line-height: 20px;
     vertical-align: middle;
+    
+    // 禁用状态样式
+    &.is-disabled{
+      cursor: not-allowed;
+      opacity: 0.6;
+      
+      .he-switch_core {
+        cursor: not-allowed;
+      }
+    }
 // 隐藏input标签
     .he-switch_input{
     position:absolute;
