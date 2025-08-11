@@ -12,12 +12,12 @@ cd docs
 npm run docs:dev    
 ```
 
-## 项目创建
+## 下载项目-项目创建
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### 启动项目
 ```
 yarn serve
 ```
